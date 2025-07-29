@@ -1,0 +1,4 @@
+sympy
+ipywidgets
+matplotlib       # Optional, for plots
+manim            # Optional, heavier install (~600MB+)
