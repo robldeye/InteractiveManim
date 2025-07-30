@@ -1,11 +1,11 @@
 from manim import *
-from sympy import sin
+from sympy import symbols, sin, Interval, S
 from sympy.calculus.util import maximum
 import math
 
 class Integral(Scene):
     # allows Integral to be called with a specified parameters f(x) and b
-    def __init__(f, b_max, b, **kwargs):
+    def __init__(self, f, b_max, b, **kwargs):
         self.f = f
         self.b_max = b_max
         self.b = b
@@ -13,12 +13,13 @@ class Integral(Scene):
 
     def construct(self):
         # Bound y-values
+        x = symbols("x")
         x_bound = math.ceil(self.b_max)+1
-        y_bound = min(10, math.ceil(maximum(self.f, x, 0, self.b_max)))    
+        y_bound = 10   
         # Axes
         axes = Axes(
             x_range=[0, x_bound, 1],
-            y_range=[-0.5*y_bound, 0.5*y_bound, 1],
+            y_range=[-5, 5, 1],
             x_length=x_bound,
             y_length=y_bound,
             axis_config={"include_numbers": True},
