@@ -1,29 +1,31 @@
 from manim import *
 from sympy import sin
+from sympy.calculus.util import maximum
+import math
 
 class Integral(Scene):
-    # allows Integral to be called with a specified parameters f(x) and a
-    # def __init__(self, func, a, **kwargs):
-    #     self.func = func
-    #     self.a = a
-    #     super().__init__(**kwargs)
+    # allows Integral to be called with a specified parameters f(x) and b
+    def __init__(self, func, b_max, b, **kwargs):
+        self.func = func
+        self.b_max = b_max
+        self.b = b
+        super().__init__(**kwargs)
 
     def construct(self):
-        def f(x):
-            return sin(x)
-    
-        self.a = 5
+        # Bound y-values
+        x_bound = math.ceil(self.b_max)+1
+        y_bound = min(10, math.ceil(maximum(self.func, x, 0, self.b_max)))    
         # Axes
         axes = Axes(
-            x_range=[0, 8, 1],
-            y_range=[-2, 2, 1],
-            x_length=10,
-            y_length=5,
+            x_range=[0, x_bound, 1],
+            y_range=[-0.5*y_bound, 0.5*y_bound, 1],
+            x_length=x_bound,
+            y_length=y_bound,
             axis_config={"include_numbers": True},
         ).to_edge(RIGHT)
         
         f_graph = axes.plot(
-            f, 
+            self.func, 
             x_range=[*axes.x_range[:2], 0.05],
             color=DARK_BLUE, 
             stroke_width=2, 
@@ -31,14 +33,14 @@ class Integral(Scene):
         )
 
         # ValueTrackers
-        a_value = ValueTracker(0.5)
+        b_value = ValueTracker(0.5)
         dx_value = ValueTracker(0.5)
 
         # Mobjects
         f_riemann = always_redraw(
             lambda: axes.get_riemann_rectangles(
                 f_graph,
-                x_range=[0, a_value.get_value()-dx_value.get_value()], # so you don't get an extra rectangle
+                x_range=[0, b_value.get_value()-dx_value.get_value()], # so you don't get an extra rectangle
                 dx=dx_value.get_value(),
                 input_sample_type="center",
                 stroke_width=5*dx_value.get_value(),
@@ -50,19 +52,23 @@ class Integral(Scene):
 
         # Labels
         title = MathTex(r"\text{Visualizing} \, \int_0^a f(x) dx")
-        a_lbl = always_redraw(
-            lambda: MathTex(r"a").next_to(axes.c2p(a_value.get_value(), 0), DOWN, buff=1)
+        b_lbl = MathTex("b =")
+        b_value_lbl = DecimalNumber().add_updater(
+            lambda n: n.set_value(b_value.get_value())
+        )
+        b_lbl_grp = VGroup(b_lbl, b_value_lbl).arrange(RIGHT).add_updater(
+            lambda g: g.next_to(axes.c2p(b_value.get_value(), 0), DOWN, buff=1)
         )
 
         #self.play(
             #Write(title)
         #)
 
-        self.add(axes, f_graph, f_riemann)
+        self.add(axes, b_lbl_grp, f_graph, f_riemann)
         self.wait(2)
 
         self.play(
-            a_value.animate.set_value(2*np.pi),
+            b_value.animate.set_value(2*np.pi),
             run_time = 2
         )
         self.wait()
