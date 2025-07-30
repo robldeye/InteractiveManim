@@ -1,4 +1,5 @@
 sympy
 ipython
-IPython.display
 ipywidgets
+jupyterlab
+notebook
