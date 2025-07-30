@@ -1,4 +1,2 @@
-.envrc
-.direnv
-__pycache__
 media/
+.ipynb_checkpoints/
