@@ -1,6 +1,4 @@
-numpy
 sympy
+ipython
 IPython.display
 ipywidgets
-ipython
-manim            # Optional, heavier install (~600MB+)
