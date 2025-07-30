@@ -3,3 +3,4 @@ ipython
 ipywidgets
 jupyterlab
 notebook
+manim[ipython]
