@@ -5,9 +5,8 @@ import math
 
 class Integral(Scene):
     # allows Integral to be called with a specified parameters f(x) and b
-    def __init__(self, f, f_expr, b_max, b, **kwargs):
+    def __init__(self, f, f_expr, b, **kwargs):
         self.f = f
-        self.b_max = b_max
         self.b = b
         self.f_expr = f_expr
         super().__init__(**kwargs)
@@ -15,20 +14,18 @@ class Integral(Scene):
     def construct(self):
         # Bound y-values
         x = symbols("x")
-        x_bound = math.ceil(self.b_max)+1
-        y_bound = 10
         # Axes
         axes = Axes(
-            x_range=[0, x_bound, 1],
+            x_range=[0, 10, 1],
             y_range=[-5, 5, 1],
-            x_length=x_bound,
-            y_length=y_bound,
+            x_length=8,
+            y_length=8,
             axis_config={"include_numbers": True},
         ).to_edge(RIGHT)
         
         f_graph = axes.plot(
             self.f, 
-            x_range=[*axes.x_range[:2], 0.05],
+            x_range=[*axes.x_range[:2], 0.01],
             color=DARK_BLUE, 
             stroke_width=2, 
             use_smoothing=True
@@ -77,13 +74,13 @@ class Integral(Scene):
         self.play(
             Write(dx_label),
             b_value.animate.set_value(self.b),
-            run_time = 2
+            run_time = 3
         )
         self.wait(2)
 
         self.play(
             dx_value.animate.set_value(0.01),
-            run_time = 2
+            run_time = 4
         )
 
         # self.play(

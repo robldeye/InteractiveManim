@@ -9,4 +9,4 @@ def show_scene(scene, **kwargs):
     scene_name = scene.__class__.__name__
     f"media/videos/{config.pixel_height}p{config.frame_rate}"
     simple_path = os.path.join(f"media/videos/{config.pixel_height}p{config.frame_rate}", f"{scene_name}.mp4")
-    return Video(simple_path, embed=True, width=320)
+    return Video(simple_path, embed=True)
