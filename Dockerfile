@@ -3,7 +3,7 @@ FROM docker.io/manimcommunity/manim:v0.19.0
 USER root
 RUN pip install --no-cache-dir notebook jupyter_contrib_nbextensions voila
 
-RUN jupyter contrib nbextension install --sys-previx && \
+RUN jupyter contrib nbextension install --sys-prefix && \
     jupyter nbextension enable execute_time/ExecuteTime --sys-prefix &&\
     jupyter nbextension enable hide_input_all/main --sys-prefix
 
