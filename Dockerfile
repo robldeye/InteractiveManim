@@ -5,8 +5,6 @@ USER root
 
 RUN pip install --no-cache-dir \
     jupyterlab \
-    voila \
-    voila-gridstack \
     jupyterlab_execute_time \
     jupyterlab_widgets \
     ipywidgets
