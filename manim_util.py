@@ -5,17 +5,18 @@ import math
 
 class Integral(Scene):
     # allows Integral to be called with a specified parameters f(x) and b
-    def __init__(self, f, b_max, b, **kwargs):
+    def __init__(self, f, f_expr, b_max, b, **kwargs):
         self.f = f
         self.b_max = b_max
         self.b = b
+        self.f_expr = f_expr
         super().__init__(**kwargs)
 
     def construct(self):
         # Bound y-values
         x = symbols("x")
         x_bound = math.ceil(self.b_max)+1
-        y_bound = 10   
+        y_bound = 10
         # Axes
         axes = Axes(
             x_range=[0, x_bound, 1],
@@ -41,7 +42,7 @@ class Integral(Scene):
         f_riemann = always_redraw(
             lambda: axes.get_riemann_rectangles(
                 f_graph,
-                x_range=[0, b_value.get_value()-dx_value.get_value()], # so you don't get an extra rectangle
+                x_range=[0, b_value.get_value()],
                 dx=dx_value.get_value(),
                 input_sample_type="center",
                 stroke_width=5*dx_value.get_value(),
@@ -52,30 +53,36 @@ class Integral(Scene):
         )
 
         # Labels
-        title = MathTex(r"\text{Visualizing} \, \int_0^a f(x) dx")
-        b_lbl = MathTex("b =")
-        b_value_lbl = DecimalNumber().add_updater(
-            lambda n: n.set_value(b_value.get_value())
-        )
-        b_lbl_grp = VGroup(b_lbl, b_value_lbl).arrange(RIGHT).add_updater(
-            lambda g: g.next_to(axes.c2p(b_value.get_value(), 0), DOWN, buff=1)
-        )
-
-        #self.play(
-            #Write(title)
-        #)
-
-        self.add(axes, b_lbl_grp, f_graph, f_riemann)
-        self.wait(2)
-
+        title = MathTex(rf"\text{{Visualizing}} \, \int_0^{{{self.b:.1f}}} {self.f_expr} \, dx")
         self.play(
-            b_value.animate.set_value(2*np.pi),
-            run_time = 2
+            Write(title)
+        )
+        self.play(
+            title.animate.to_edge(LEFT),
         )
         self.wait()
 
+        self.add(axes, f_graph, f_riemann)
+        self.wait()
+
+        dx_prefix = MathTex(r"dx =")
+        dx_decimal = DecimalNumber(
+            dx_value.get_value(),
+            num_decimal_places=2,
+        ).next_to(dx_prefix, RIGHT)
+        dx_decimal.add_updater(lambda m: m.set_value(dx_value.get_value()))
+        dx_label = VGroup(dx_prefix, dx_decimal).arrange(RIGHT)
+        dx_label.next_to(title, DOWN).align_to(title, LEFT)
+
         self.play(
-            dx_value.animate.set_value(0.1),
+            Write(dx_label),
+            b_value.animate.set_value(self.b),
+            run_time = 2
+        )
+        self.wait(2)
+
+        self.play(
+            dx_value.animate.set_value(0.01),
             run_time = 2
         )
 
