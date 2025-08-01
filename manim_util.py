@@ -1,5 +1,5 @@
 from manim import *
-from sympy import symbols, sin, Interval, S
+from sympy import symbols, sin, Interval, S, latex
 from sympy.calculus.util import maximum
 import math
 
@@ -50,7 +50,7 @@ class Integral(Scene):
         )
 
         # Labels
-        title = MathTex(rf"\text{{Visualizing}} \, \int_0^{{{self.b:.1f}}} {self.f_expr} \, dx")
+        title = MathTex(rf"\text{{Visualizing}} \, \int_0^{{{self.b:.1f}}} {latex(self.f_expr)} \, dx")
         self.play(
             Write(title)
         )
@@ -62,17 +62,16 @@ class Integral(Scene):
         self.add(axes, f_graph, f_riemann)
         self.wait()
 
-        dx_prefix = MathTex(r"dx =")
-        dx_decimal = DecimalNumber(
-            dx_value.get_value(),
-            num_decimal_places=2,
-        ).next_to(dx_prefix, RIGHT)
-        dx_decimal.add_updater(lambda m: m.set_value(dx_value.get_value()))
-        dx_label = VGroup(dx_prefix, dx_decimal).arrange(RIGHT)
-        dx_label.next_to(title, DOWN).align_to(title, LEFT)
+        # dx_prefix = MathTex(r"dx =")
+        # dx_decimal = DecimalNumber(
+        #     dx_value.get_value(),
+        #     num_decimal_places=2,
+        # ).next_to(dx_prefix, RIGHT)
+        # dx_decimal.add_updater(lambda m: m.set_value(dx_value.get_value()))
+        # dx_label = VGroup(dx_prefix, dx_decimal).arrange(RIGHT)
+        # dx_label.next_to(title, DOWN).align_to(title, LEFT)
 
         self.play(
-            Write(dx_label),
             b_value.animate.set_value(self.b),
             run_time = 3
         )
