@@ -9,6 +9,9 @@ RUN pip install --no-cache-dir \
     jupyterlab_widgets \
     ipywidgets
 
+# Makes pydub happy
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+
 # Copy Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
