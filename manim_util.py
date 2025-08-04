@@ -8,13 +8,11 @@ class Integral(Scene):
     def __init__(self, f, f_expr, b, **kwargs):
         self.f = f
         self.b = b
-        self.f_expr = f_expr
+        self.f_expr = f_expr # needed for nice latex expressions
         super().__init__(**kwargs)
 
     def construct(self):
-        # Bound y-values
         x = symbols("x")
-        # Axes
         axes = Axes(
             x_range=[0, 10, 1],
             y_range=[-5, 5, 1],
@@ -75,7 +73,7 @@ class Integral(Scene):
 
         self.play(
             dx_value.animate.set_value(0.01),
-            run_time = 3
+            run_time = 2
         )
 
         # self.play(
