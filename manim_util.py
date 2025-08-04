@@ -50,6 +50,8 @@ class Integral(Scene):
 
         # Labels
         title = MathTex(rf"\text{{Visualizing}} \, \int_0^{{{self.b:.1f}}} {latex(self.f_expr)} \, dx")
+        
+        # Animations
         self.play(
             Write(title)
         )
@@ -75,21 +77,6 @@ class Integral(Scene):
             dx_value.animate.set_value(0.01),
             run_time = 2
         )
-
-        # self.play(
-        #     FadeOut(f_riemann)
-        # )
-
-        # f_area = axes.get_area(
-        #     f_graph,
-        #     x_range=[0, a_value.get_value()],
-        #     color=BLUE,
-        #     opacity=0.5
-        # )
-
-        # self.play(
-        #     FadeIn(f_area)
-        # )
         self.wait(3)
 
-
+        # End
