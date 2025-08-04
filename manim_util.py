@@ -18,7 +18,7 @@ class Integral(Scene):
             y_range=[-5, 5, 1],
             x_length=8,
             y_length=8,
-            axis_config={"include_numbers": True},
+            axis_config={"include_numbers": False},
         ).to_edge(RIGHT)
         axes_labels = axes.get_axis_labels()
         
