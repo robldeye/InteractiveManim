@@ -52,7 +52,7 @@ class Integral(Scene):
         
         # Animations
         self.play(
-            Write(title)
+            Write(title, run_time=1)
         )
         self.play(
             title.animate.to_edge(LEFT),
@@ -148,7 +148,7 @@ class Limit(Scene):
 
         # Start
         self.play(
-            Write(title)
+            Write(title, run_time=1)
         )
         self.wait()
 
@@ -159,7 +159,7 @@ class Limit(Scene):
         
         func_label = MathTex(f"f(x) = {self.f_tex}").scale(0.8).next_to(title, DOWN).align_to(title, LEFT)
         self.play(
-            Write(func_label)
+            Write(func_label, run_time=1)
         )
         self.wait()
 
@@ -220,7 +220,7 @@ class Limit(Scene):
         self.play(FadeOut(left_line))
         self.play(
             Indicate(left_dot),
-            Write(limit_l),
+            Write(limit_l, run_time=1),
             lag_ratio=0.5
         )
         self.wait()
@@ -235,7 +235,7 @@ class Limit(Scene):
         self.play(FadeOut(right_line))
         self.play(
             Indicate(right_dot),
-            Write(limit_r),
+            Write(limit_r, run_time=1),
             lag_ratio=0.5
         )
         self.wait()
@@ -246,7 +246,7 @@ class Limit(Scene):
             self.play(
                 Circumscribe(limit_dot, color=YELLOW),
                 Create(limit_dash),
-                *(Write(label) for label in limit_def),
+                *(Write(label, run_time=1) for label in limit_def),
                 lag_ratio = 0.5
             )
         else:
